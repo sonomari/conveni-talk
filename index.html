@@ -6,101 +6,70 @@
     <title>コンビニの店員さんと話そう</title>
     <style>
         :root {
-            --primary-color: #667eea;
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --text-color: #2d3436;
+            --bg-color: #f0f2f5;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: sans-serif;
-            background: radial-gradient(circle at top right, #e0c3fc 0%, #8ec5fc 100%);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            color: var(--text-color);
+            font-family: 'Outfit', 'Noto Sans JP', sans-serif;
+            background-image: radial-gradient(circle at top right, #e0c3fc 0%, #8ec5fc 100%);
+            min-height: 100vh; color: var(--text-color); display: flex; flex-direction: column; align-items: center; padding: 20px;
         }
         .container {
-            max-width: 600px; width: 100%; 
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 20px; padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 600px; width: 100%; background: var(--card-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.3); padding: 30px; box-shadow: var(--shadow);
         }
-        header { text-align: center; margin-bottom: 20px; }
-        h1 { color: var(--primary-color); margin-bottom: 5px; }
-        .input-section { margin-bottom: 20px; }
-        input[type="text"] {
-            width: 100%; padding: 15px; border-radius: 10px;
-            border: 2px solid #ddd; font-size: 1rem;
-        }
-        #map-container { 
-            width: 100%; height: 200px; border-radius: 15px; 
-            overflow: hidden; margin-bottom: 20px; background: #eee;
-        }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.8rem; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+        .input-section { margin-bottom: 25px; }
+        input[type="text"] { width: 100%; padding: 14px 20px; border-radius: 12px; border: 2px solid #ddd; background: #fff; font-size: 1rem; }
+        #map-container { width: 100%; height: 250px; border-radius: 16px; overflow: hidden; margin-bottom: 25px; background: #eee; }
         iframe { width: 100%; height: 100%; border: none; }
-        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .info-card { background: #fff; padding: 10px; border-radius: 10px; text-align: center; border: 1px solid #eee; }
-        .phrase-item { 
-            background: #fff; padding: 15px; border-radius: 15px; 
-            margin-bottom: 10px; border: 1px solid #eee;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .btn-speak {
-            background: var(--primary-color); border: none; color: white;
-            width: 45px; height: 45px; border-radius: 50%; cursor: pointer;
-            font-size: 1.2rem;
-        }
-        .btn-link {
-            background: #555; color: white; border: none; 
-            padding: 15px; border-radius: 10px; cursor: pointer;
-            width: 100%; margin-top: 10px; font-weight: bold;
-        }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
+        .info-card { background: white; padding: 15px; border-radius: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .phrase-list { display: flex; flex-direction: column; gap: 15px; }
+        .phrase-item { background: white; padding: 18px; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .phrase-row { display: flex; justify-content: space-between; align-items: center; }
+        .phrase-translated { font-weight: 700; font-size: 1.3rem; color: #1a1a1a; }
+        .btn-speak { background: var(--primary-gradient); border: none; color: white; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .btn-link { background: #555; color: white; border: none; padding: 12px 20px; border-radius: 12px; cursor: pointer; width: 100%; margin-top: 10px; }
     </style>
 </head>
 <body>
     <div class="container">
         <header><h1>コンビニの店員さんと話そう</h1></header>
         <div class="input-section">
-            <input type="text" id="country-input" placeholder="国名を入力（例：ベトナム）" list="country-list">
+            <input type="text" id="country-input" placeholder="例: ベトナム, バングラデシュ, ネパール..." list="country-list">
             <datalist id="country-list">
                 <option value="ベトナム"><option value="バングラデシュ"><option value="ネパール"><option value="中国"><option value="インドネシア"><option value="ミャンマー"><option value="フィリピン"><option value="タイ"><option value="韓国">
             </datalist>
         </div>
-        <div id="map-container">
-            <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#999;">国名を入れると地図が出ます</div>
-        </div>
+        <div id="map-container"><div style="display:flex;align-items:center;justify-content:center;height:100%;color:#aaa;">国名を入力してください</div></div>
         <div class="info-grid">
-            <div class="info-card"><p style="font-size:0.7rem;">首都</p><p id="capital-display" style="font-weight:bold;">-</p></div>
-            <div class="info-card"><p style="font-size:0.7rem;">言語</p><p id="language-display" style="font-weight:bold;">-</p></div>
+            <div class="info-card"><p style="font-size:0.8rem;color:#777;">首都</p><p id="capital-display" style="font-weight:700;">-</p></div>
+            <div class="info-card"><p style="font-size:0.8rem;color:#777;">言語</p><p id="language-display" style="font-weight:700;">-</p></div>
         </div>
         <div class="phrase-list">
-            <div class="phrase-item">
-                <div><p style="font-size:0.7rem;color:#888;">こんにちは</p><p id="phrase-hello" style="font-weight:bold;font-size:1.2rem;">-</p></div>
-                <button class="btn-speak" onclick="speak('hello')">▶</button>
-            </div>
-            <div class="phrase-item">
-                <div><p style="font-size:0.7rem;color:#888;">お願いします</p><p id="phrase-please" style="font-weight:bold;font-size:1.2rem;">-</p></div>
-                <button class="btn-speak" onclick="speak('please')">▶</button>
-            </div>
-            <div class="phrase-item">
-                <div><p style="font-size:0.7rem;color:#888;">ありがとう</p><p id="phrase-thanks" style="font-weight:bold;font-size:1.2rem;">-</p></div>
-                <button class="btn-speak" onclick="speak('thanks')">▶</button>
-            </div>
+            <div class="phrase-item"><p style="font-size:0.8rem;color:#888;">こんにちは</p><div class="phrase-row"><span class="phrase-translated" id="phrase-hello">-</span><button class="btn-speak" onclick="speak('hello')">▶</button></div></div>
+            <div class="phrase-item"><p style="font-size:0.8rem;color:#888;">お願いします</p><div class="phrase-row"><span class="phrase-translated" id="phrase-please">-</span><button class="btn-speak" onclick="speak('please')">▶</button></div></div>
+            <div class="phrase-item"><p style="font-size:0.8rem;color:#888;">ありがとう</p><div class="phrase-row"><span class="phrase-translated" id="phrase-thanks">-</span><button class="btn-speak" onclick="speak('thanks')">▶</button></div></div>
         </div>
         <button class="btn-link" id="btn-translate">Google翻訳を開く</button>
     </div>
-
     <script>
         const countryData = {
-            "ベトナム": { cap: "ハノイ", lang: "ベトナム語", code: "vi", phrases: { hello: "Xin chào", please: "Làm ơn", thanks: "Cảm ơn" }, fb: { hello: "シンチャオ", please: "ラムオン", thanks: "カムオン" } },
-            "バングラデシュ": { cap: "ダッカ", lang: "ベンガル語", code: "bn", phrases: { hello: "আসসালামু আলাইকুম", please: "দয়া করে", thanks: "ধন্যবাদ" }, fb: { hello: "アッサラーム・アライクム", please: "ドヤ・コレ", thanks: "ドンノバッド" } },
-            "ネパール": { cap: "カトマンズ", lang: "ネパール語", code: "ne", phrases: { hello: "नमस्ते (Namaste)", please: "हजुर (Hajur)", thanks: "धन्यवाद (Dhanyabaad)" }, fb: { hello: "ナマステ", please: "ハジュール", thanks: "ダンネバード" } },
-            "中国": { cap: "北京", lang: "中国語", code: "zh", phrases: { hello: "你好", please: "请", thanks: "谢谢" }, fb: { hello: "ニーハオ", please: "チン", thanks: "シェシェ" } },
-            "インドネシア": { cap: "ジャカルタ", lang: "インドネシア語", code: "id", phrases: { hello: "Halo", please: "Tolong", thanks: "Terima kasih" }, fb: { hello: "ハロー", please: "トロン", thanks: "トゥリマカシ" } },
-            "ミャンマー": { cap: "ネピドー", lang: "ビルマ語", code: "my", phrases: { hello: "မင်္ဂလာပါ", please: "ကျေးဇူးပြု၍", thanks: "ကျေးဇူးတင်ပါတယ်" }, fb: { hello: "ミンガラバー", please: "チェーズーピュユエ", thanks: "チェーズーティンバーデー" } },
-            "フィリピン": { cap: "マニラ", lang: "タガログ語", code: "tl", phrases: { hello: "Kumusta", please: "Pakiusap", thanks: "Salamat" }, fb: { hello: "クムスタ", please: "パキウサップ", thanks: "サラマット" } },
-            "タイ": { cap: "バンコク", lang: "タイ語", code: "th", phrases: { hello: "สวัสดี (Sawasdee)", please: "กรุณา", thanks: "ขอบคุณ" }, fb: { hello: "サワディー", please: "カルナー", thanks: "コップン" } },
-            "韓国": { cap: "ソウル", lang: "韓国語", code: "ko", phrases: { hello: "안녕하세요", please: "부탁합니다", thanks: "감사합니다" }, fb: { hello: "アンニョンハセヨ", please: "プタカムニダ", thanks: "カムサハムニダ" } }
+            "ベトナム": { cap: "ハノイ", lang: "ベトナム語", lc: "vi", phrases: { hello: "Xin chào", please: "Làm ơn", thanks: "Cảm ơn" }, fb: { hello: "シンチャオ", please: "ラムオン", thanks: "カムオン" } },
+            "バングラデシュ": { cap: "ダッカ", lang: "ベンガル語", lc: "bn", phrases: { hello: "আসসালামু আলাইকুম", please: "দয়া করে", thanks: "ধন্যবাদ" }, fb: { hello: "アッサラーム・アライクム", please: "ドヤ・コレ", thanks: "ドンノバッド" } },
+            "ネパール": { cap: "カトマンズ", lang: "ネパール語", lc: "ne", phrases: { hello: "नमस्ते (Namaste)", please: "हजुर (Hajur)", thanks: "धन्यवाद (Dhanyabaad)" }, fb: { hello: "ナマステ", please: "ハジュール", thanks: "ダンネバード" } },
+            "中国": { cap: "北京", lang: "中国語", lc: "zh", phrases: { hello: "你好", please: "请", thanks: "谢谢" }, fb: { hello: "ニーハオ", please: "チン", thanks: "シェシェ" } },
+            "インドネシア": { cap: "ジャカルタ", lang: "インドネシア語", lc: "id", phrases: { hello: "Halo", please: "Tolong", thanks: "Terima kasih" }, fb: { hello: "ハロー", please: "トロン", thanks: "トゥリマカシ" } },
+            "ミャンマー": { cap: "ネピドー", lang: "ビルマ語", lc: "my", phrases: { hello: "မင်္ဂလာပါ", please: "ကျေးဇူးပြု၍", thanks: "ကျေးဇူးတင်ပါတယ်" }, fb: { hello: "ミンガラバー", please: "チェーズーピュユエ", thanks: "チェーズーティンバーデー" } },
+            "フィリピン": { cap: "マニラ", lang: "タガログ語", lc: "tl", phrases: { hello: "Kumusta", please: "Pakiusap", thanks: "Salamat" }, fb: { hello: "クムスタ", please: "パキウサップ", thanks: "サラマット" } },
+            "タイ": { cap: "バンコク", lang: "タイ語", lc: "th", phrases: { hello: "สวัสดี (Sawasdee)", please: "กรุณา", thanks: "ขอบคุณ" }, fb: { hello: "サワディー", please: "カルナー", thanks: "コップン" } },
+            "韓国": { cap: "ソウル", lang: "韓国語", lc: "ko", phrases: { hello: "안녕하세요", please: "부탁합니다", thanks: "감사합니다" }, fb: { hello: "アンニョンハセヨ", please: "プタカムニダ", thanks: "カムサハムニダ" } }
         };
 
         const input = document.getElementById('country-input');
@@ -120,18 +89,30 @@
             const data = countryData[input.value.trim()];
             if (!data) return;
             const text = data.phrases[key].split('(')[0].trim();
-            const lang = data.code;
+            const lang = data.lc;
+
+            // 1. Google翻訳の音声を試みる
             const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=${lang}&client=gtx`;
             const audio = new Audio(ttsUrl);
             audio.play().catch(() => {
+                // 2. 失敗したらブラウザ内蔵音声
                 window.speechSynthesis.cancel();
-                const utterance = new SpeechSynthesisUtterance(data.fb[key]);
-                utterance.lang = 'ja-JP';
-                window.speechSynthesis.speak(utterance);
+                const u = new SpeechSynthesisUtterance(text);
+                const voices = window.speechSynthesis.getVoices();
+                const voice = voices.find(v => v.lang.startsWith(lang));
+                if (voice) {
+                    u.voice = voice;
+                    window.speechSynthesis.speak(u);
+                } else {
+                    // 3. それでもダメならカタカナ読み
+                    const fb = new SpeechSynthesisUtterance(data.fb[key]);
+                    fb.lang = 'ja-JP';
+                    window.speechSynthesis.speak(fb);
+                }
             });
         }
         document.getElementById('btn-translate').addEventListener('click', () => {
-            const lang = countryData[input.value] ? countryData[input.value].code : 'en';
+            const lang = countryData[input.value] ? countryData[input.value].lc : 'en';
             window.open(`https://translate.google.com/?sl=ja&tl=${lang}&op=translate`, '_blank');
         });
     </script>
