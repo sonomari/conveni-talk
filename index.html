@@ -100,4 +100,40 @@
             "ミャンマー": { cap: "ネピドー", lang: "ビルマ語", code: "my", phrases: { hello: "မင်္ဂလာပါ", please: "ကျေးဇူးပြု၍", thanks: "ကျေးဇူးတင်ပါတယ်" }, fb: { hello: "ミンガラバー", please: "チェーズーピュユエ", thanks: "チェーズーティンバーデー" } },
             "フィリピン": { cap: "マニラ", lang: "タガログ語", code: "tl", phrases: { hello: "Kumusta", please: "Pakiusap", thanks: "Salamat" }, fb: { hello: "クムスタ", please: "パキウサップ", thanks: "サラマット" } },
             "タイ": { cap: "バンコク", lang: "タイ語", code: "th", phrases: { hello: "สวัสดี (Sawasdee)", please: "กรุณา", thanks: "ขอบคุณ" }, fb: { hello: "サワディー", please: "カルナー", thanks: "コップン" } },
-            "韓国": { cap: "ソウル", lang: "韓国語", code: "ko", phrases:
+            "韓国": { cap: "ソウル", lang: "韓国語", code: "ko", phrases: { hello: "안녕하세요", please: "부탁합니다", thanks: "감사합니다" }, fb: { hello: "アンニョンハセヨ", please: "プタカムニダ", thanks: "カムサハムニダ" } }
+        };
+
+        const input = document.getElementById('country-input');
+        input.addEventListener('input', (e) => {
+            const data = countryData[e.target.value.trim()];
+            if (data) {
+                document.getElementById('capital-display').textContent = data.cap;
+                document.getElementById('language-display').textContent = data.lang;
+                document.getElementById('phrase-hello').textContent = data.phrases.hello;
+                document.getElementById('phrase-please').textContent = data.phrases.please;
+                document.getElementById('phrase-thanks').textContent = data.phrases.thanks;
+                document.getElementById('map-container').innerHTML = `<iframe src="https://maps.google.com/maps?q=${encodeURIComponent(e.target.value)}&output=embed&z=5"></iframe>`;
+            }
+        });
+
+        function speak(key) {
+            const data = countryData[input.value.trim()];
+            if (!data) return;
+            const text = data.phrases[key].split('(')[0].trim();
+            const lang = data.code;
+            const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=${lang}&client=gtx`;
+            const audio = new Audio(ttsUrl);
+            audio.play().catch(() => {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(data.fb[key]);
+                utterance.lang = 'ja-JP';
+                window.speechSynthesis.speak(utterance);
+            });
+        }
+        document.getElementById('btn-translate').addEventListener('click', () => {
+            const lang = countryData[input.value] ? countryData[input.value].code : 'en';
+            window.open(`https://translate.google.com/?sl=ja&tl=${lang}&op=translate`, '_blank');
+        });
+    </script>
+</body>
+</html>
