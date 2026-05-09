@@ -9,204 +9,107 @@
             --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --text-color: #2d3436;
             --bg-color: #f0f2f5;
-            --card-bg: rgba(255, 255, 255, 0.85);
-            --glass-bg: rgba(255, 255, 255, 0.5);
+            --card-bg: rgba(255, 255, 255, 0.9);
             --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             font-family: 'Outfit', 'Noto Sans JP', sans-serif;
             background-image: radial-gradient(circle at top right, #e0c3fc 0%, #8ec5fc 100%);
-            min-height: 100vh;
-            color: var(--text-color);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
+            min-height: 100vh; color: var(--text-color); display: flex; flex-direction: column; align-items: center; padding: 20px;
         }
-
         .container {
-            max-width: 600px; width: 100%; background: var(--card-bg);
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 30px; box-shadow: var(--shadow);
+            max-width: 600px; width: 100%; background: var(--card-bg); border-radius: 24px; padding: 30px; box-shadow: var(--shadow);
         }
-
         header { text-align: center; margin-bottom: 30px; }
-        h1 { font-size: 1.8rem; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
-
+        h1 { font-size: 1.8rem; background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .input-section { margin-bottom: 25px; }
-        label { display: block; font-weight: 700; margin-bottom: 10px; font-size: 0.95rem; }
-        input[type="text"] {
-            width: 100%; padding: 14px 20px; border-radius: 12px; border: 2px solid #ddd;
-            background: #fff; font-size: 1rem; transition: all 0.3s;
-        }
-
-        #map-container { width: 100%; height: 200px; border-radius: 16px; overflow: hidden; margin-bottom: 25px; background: #eee; }
-        iframe { width: 100%; height: 100%; border: none; }
-
-        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
-        .info-card { background: white; padding: 15px; border-radius: 12px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .info-label { font-size: 0.8rem; color: #777; display: block; }
-        .info-value { font-weight: 700; font-size: 1.1rem; }
-
-        .phrase-list { display: flex; flex-direction: column; gap: 15px; }
-        .phrase-item { background: white; padding: 18px; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        input[type="text"] { width: 100%; padding: 15px; border-radius: 12px; border: 2px solid #ddd; font-size: 1.1rem; }
+        .phrase-item { background: white; padding: 20px; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 15px; }
         .phrase-row { display: flex; justify-content: space-between; align-items: center; }
-        .phrase-translated { font-weight: 700; font-size: 1.3rem; color: #1a1a1a; }
-
-        .btn-speak {
-            background: var(--primary-gradient); border: none; color: white; width: 44px; height: 44px;
-            border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
-        }
-
-        .other-input-section { margin-top: 25px; padding-top: 25px; border-top: 1px dashed #ddd; }
-        .btn-link { background: #555; color: white; border: none; padding: 12px 20px; border-radius: 12px; cursor: pointer; }
-
-        footer { margin-top: 30px; font-size: 0.8rem; color: #777; }
+        .phrase-translated { font-weight: 700; font-size: 1.4rem; }
+        .btn-speak { background: var(--primary-gradient); border: none; color: white; width: 54px; height: 54px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; }
+        .btn-google { background: #4285F4; color: white; border: none; padding: 8px 12px; border-radius: 8px; font-size: 0.7rem; cursor: pointer; margin-top: 10px; display: none; }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>コンビニの店員さんと話そう</h1>
-        </header>
-
+        <header><h1>コンビニの店員さんと話そう</h1></header>
         <div class="input-section">
-            <label for="country-input">店員さんの国名は？</label>
-            <input type="text" id="country-input" placeholder="例: ベトナム, ネパール..." list="country-list">
+            <input type="text" id="country-input" placeholder="店員さんの国を入力してください" list="country-list">
             <datalist id="country-list">
-                <option value="ベトナム">
-                <option value="バングラデシュ">
-                <option value="ネパール">
-                <option value="中国">
-                <option value="インドネシア">
-                <option value="ミャンマー">
-                <option value="フィリピン">
-                <option value="タイ">
-                <option value="韓国">
+                <option value="ベトナム"><option value="バングラデシュ"><option value="ネパール"><option value="中国"><option value="インドネシア"><option value="ミャンマー"><option value="フィリピン"><option value="タイ"><option value="韓国">
             </datalist>
         </div>
-
-        <div id="map-container">
-            <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #aaa;">国名を入力してください</div>
-        </div>
-
-        <div class="info-grid">
-            <div class="info-card">
-                <span class="info-label">首都</span>
-                <span class="info-value" id="capital-display">-</span>
-            </div>
-            <div class="info-card">
-                <span class="info-label">言語</span>
-                <span class="info-value" id="language-display">-</span>
-            </div>
-        </div>
-
         <div class="phrase-list">
             <div class="phrase-item">
-                <div class="phrase-row">
-                    <span class="phrase-translated" id="phrase-hello">-</span>
-                    <button class="btn-speak" onclick="speak('hello')">▶</button>
-                </div>
+                <p style="font-size:0.8rem;color:#888;">こんにちは</p>
+                <div class="phrase-row"><span class="phrase-translated" id="phrase-hello">-</span><button class="btn-speak" onclick="speak('hello')">▶</button></div>
+                <button id="google-hello" class="btn-google" onclick="openGoogle('hello')">Googleで再生</button>
             </div>
             <div class="phrase-item">
-                <div class="phrase-row">
-                    <span class="phrase-translated" id="phrase-please">-</span>
-                    <button class="btn-speak" onclick="speak('please')">▶</button>
-                </div>
+                <p style="font-size:0.8rem;color:#888;">お願いします</p>
+                <div class="phrase-row"><span class="phrase-translated" id="phrase-please">-</span><button class="btn-speak" onclick="speak('please')">▶</button></div>
+                <button id="google-please" class="btn-google" onclick="openGoogle('please')">Googleで再生</button>
             </div>
             <div class="phrase-item">
-                <div class="phrase-row">
-                    <span class="phrase-translated" id="phrase-thanks">-</span>
-                    <button class="btn-speak" onclick="speak('thanks')">▶</button>
-                </div>
+                <p style="font-size:0.8rem;color:#888;">ありがとう</p>
+                <div class="phrase-row"><span class="phrase-translated" id="phrase-thanks">-</span><button class="btn-speak" onclick="speak('thanks')">▶</button></div>
+                <button id="google-thanks" class="btn-google" onclick="openGoogle('thanks')">Googleで再生</button>
             </div>
         </div>
-
-        <div class="other-input-section">
-            <div style="display:flex; gap:10px;">
-                <input type="text" id="other-input" style="flex:1;" placeholder="その他自由に翻訳">
-                <button class="btn-link" id="btn-translate">翻訳</button>
-            </div>
-        </div>
+        <!-- 隠しオーディオ要素 -->
+        <audio id="tts-player" style="display:none;"></audio>
     </div>
-
     <script>
         const countryData = {
-            "ベトナム": { capital: "ハノイ", language: "ベトナム語", langCode: "vi", phrases: { hello: "Xin chào", please: "Làm ơn", thanks: "Cảm ơn" }, fallback: { hello: "シンチャオ", please: "ラムオン", thanks: "カムオン" } },
-            "バングラデシュ": { capital: "ダッカ", language: "ベンガル語", langCode: "bn", phrases: { hello: "আসসালামু আলাইকুম", please: "দয়া করে", thanks: "ধন্যবাদ" }, fallback: { hello: "アッサラーム・アライクム", please: "ドヤ・コレ", thanks: "ドンノバッド" } },
-            "ネパール": { capital: "カトマンズ", language: "ネパール語", langCode: "ne", phrases: { hello: "नमस्ते (Namaste)", please: "कृपया (Kripaya)", thanks: "धन्यवाद (Dhanyabaad)" }, fallback: { hello: "ナマステ", please: "クリパヤ", thanks: "ダニャバード" } },
-            "中国": { capital: "北京", language: "中国語", langCode: "zh", phrases: { hello: "你好", please: "请", thanks: "谢谢" }, fallback: { hello: "ニーハオ", please: "チン", thanks: "シェシェ" } },
-            "インドネシア": { capital: "ジャカルタ", language: "インドネシア語", langCode: "id", phrases: { hello: "Halo", please: "Tolong", thanks: "Terima kasih" }, fallback: { hello: "ハロー", please: "トロン", thanks: "トゥリマカシ" } },
-            "ミャンマー": { capital: "ネピドー", language: "ビルマ語", langCode: "my", phrases: { hello: "မင်္ဂလာပါ", please: "ကျေးဇူးပြု၍", thanks: "ကျေးဇူးတင်ပါတယ်" }, fallback: { hello: "ミンガラバー", please: "チェーズーピュユエ", thanks: "チェーズーティンバーデー" } },
-            "フィリピン": { capital: "マニラ", language: "タガログ語", langCode: "tl", phrases: { hello: "Kumusta", please: "Pakiusap", thanks: "Salamat" }, fallback: { hello: "クムスタ", please: "パキウサップ", thanks: "サラマット" } },
-            "タイ": { capital: "バンコク", language: "タイ語", langCode: "th", phrases: { hello: "สวัสดี (Sawasdee)", please: "กรุณา", thanks: "ขอบคุณ" }, fallback: { hello: "サワディー", please: "カルナー", thanks: "コップン" } },
-            "韓国": { capital: "ソウル", language: "韓国語", langCode: "ko", phrases: { hello: "안녕하세요", please: "부탁합니다", thanks: "감사합니다" }, fallback: { hello: "アンニョンハセヨ", please: "プタカムニダ", thanks: "カムサハムニダ" } }
+            "ベトナム": { lc: "vi", phrases: { hello: "Xin chào", please: "Làm ơn", thanks: "Cảm ơn" }, fb: { hello: "シンチャオ", please: "ラムオン", thanks: "カムオン" } },
+            "バングラデシュ": { lc: "bn", phrases: { hello: "আসসালামু আলাইকুম", please: "দয়া করে", thanks: "ধন্যবাদ" }, fb: { hello: "アッサラーム・アライクム", please: "ドヤ・コレ", thanks: "ドンノバッド" } },
+            "ネパール": { lc: "ne", phrases: { hello: "नमस्ते (Namaste)", please: "हजুর (Hajur)", thanks: "धन्यवाद (Dhanyabaad)" }, fb: { hello: "ナマステ", please: "ハジュール", thanks: "ダンネバーッド" } },
+            "中国": { lc: "zh", phrases: { hello: "你好", please: "请", thanks: "谢谢" }, fb: { hello: "ニーハオ", please: "チン", thanks: "シェシェ" } },
+            "インドネシア": { lc: "id", phrases: { hello: "Halo", please: "Tolong", thanks: "Terima kasih" }, fb: { hello: "ハロー", please: "トロン", thanks: "トゥリマカシ" } },
+            "ミャンマー": { lc: "my", phrases: { hello: "မင်္ဂလာပါ", please: "ကျေးဇူးပြု၍", thanks: "ကျေးဇူးတင်ပါတယ်" }, fb: { hello: "ミンガラバー", please: "チェーズーピュユエ", thanks: "チェーズーティンバーデー" } },
+            "フィリピン": { lc: "tl", phrases: { hello: "Kumusta", please: "Pakiusap", thanks: "Salamat" }, fb: { hello: "クムスタ", please: "パキウサップ", thanks: "サラマット" } },
+            "タイ": { lc: "th", phrases: { hello: "สวัสดี (Sawasdee)", please: "กรุณา", thanks: "ขอบคุณ" }, fb: { hello: "サワディー", please: "カルナー", thanks: "コップン" } },
+            "韓国": { lc: "ko", phrases: { hello: "안녕하세요", please: "부탁합니다", thanks: "감사합니다" }, fb: { hello: "アンニョンハセヨ", please: "プタカムニダ", thanks: "カムサハムニダ" } }
         };
 
-        // 音声合成の初期化
-        let voices = [];
-        function loadVoices() {
-            voices = window.speechSynthesis.getVoices();
-        }
-        loadVoices();
-        if (window.speechSynthesis.onvoiceschanged !== undefined) {
-            window.speechSynthesis.onvoiceschanged = loadVoices;
-        }
-
         const input = document.getElementById('country-input');
+        const player = document.getElementById('tts-player');
+
         input.addEventListener('input', (e) => {
-            const val = e.target.value.trim();
-            const data = countryData[val];
+            const data = countryData[e.target.value.trim()];
             if (data) {
-                document.getElementById('capital-display').textContent = data.capital;
-                document.getElementById('language-display').textContent = data.language;
-                document.getElementById('phrase-hello').textContent = data.phrases.hello;
-                document.getElementById('phrase-please').textContent = data.phrases.please;
-                document.getElementById('phrase-thanks').textContent = data.phrases.thanks;
-                document.getElementById('map-container').innerHTML = `<iframe src="https://maps.google.com/maps?q=${encodeURIComponent(val)}&output=embed&z=5"></iframe>`;
-            }
-        });
-
-        function speak(key) {
-            const country = input.value.trim();
-            const data = countryData[country];
-            if (!data) return;
-
-            const text = data.phrases[key].split('(')[0].trim();
-            const lang = data.langCode;
-
-            // 1. まずスマホ内蔵の音声を試みる
-            window.speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(text);
-            
-            // その言語の声があるか探す
-            let voice = voices.find(v => v.lang.startsWith(lang));
-            if (voice) {
-                utterance.voice = voice;
-                utterance.lang = voice.lang;
-                window.speechSynthesis.speak(utterance);
-            } else {
-                // 2. 声がない場合は Google TTS を試みる
-                const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=${lang}&client=gtx`;
-                const audio = new Audio(ttsUrl);
-                audio.play().catch(() => {
-                    // 3. 外部音声もブロックされたら、日本語の声でカタカナを読み上げる
-                    const fallbackUtterance = new SpeechSynthesisUtterance(data.fallback[key]);
-                    fallbackUtterance.lang = 'ja-JP';
-                    window.speechSynthesis.speak(fallbackUtterance);
+                ['hello', 'please', 'thanks'].forEach(k => {
+                    document.getElementById('phrase-' + k).textContent = data.phrases[k];
+                    document.getElementById('google-' + k).style.display = 'block';
                 });
             }
+        });
+
+        function getUrl(key) {
+            const data = countryData[input.value.trim()];
+            const text = data.phrases[key].split('(')[0].trim();
+            return `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=${data.lc}&client=gtx`;
         }
 
-        document.getElementById('btn-translate').addEventListener('click', () => {
-            const val = document.getElementById('other-input').value;
-            const lang = countryData[input.value] ? countryData[input.value].langCode : 'en';
-            window.open(`https://translate.google.com/?sl=ja&tl=${lang}&text=${encodeURIComponent(val)}&op=translate`, '_blank');
-        });
+        function speak(key) {
+            const data = countryData[input.value.trim()];
+            if (!data) return;
+            const text = data.phrases[key].split('(')[0].trim();
+            player.src = getUrl(key);
+            player.play().catch(() => {
+                // ブロックされたら内蔵音声（カタカナ）
+                window.speechSynthesis.cancel();
+                const u = new SpeechSynthesisUtterance(data.fb[key]);
+                u.lang = 'ja-JP';
+                window.speechSynthesis.speak(u);
+            });
+        }
+
+        function openGoogle(key) {
+            window.open(getUrl(key), '_blank');
+        }
     </script>
 </body>
 </html>
